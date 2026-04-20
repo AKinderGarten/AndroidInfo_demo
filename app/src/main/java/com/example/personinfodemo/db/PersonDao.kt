@@ -2,6 +2,7 @@ package com.example.personinfodemo.db
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import com.example.personinfodemo.model.Person
 
 class PersonDao(context: Context) {
@@ -69,6 +70,32 @@ class PersonDao(context: Context) {
         }
         cursor.close()
         return person
+    }
+
+    // 给 ContentProvider 使用的游标方法
+    fun getAllPersonsCursor(): Cursor {
+        return db.rawQuery("SELECT * FROM info", null) // 直接用上面的 db
+    }
+
+    fun insertPersonById(id: Int?, name: String?, age: Int?, height: Float?) {
+        if (id == null || name.isNullOrBlank() || age == null || height == null) return
+        val values = ContentValues().apply {
+            put("id", id)
+            put("name", name)
+            put("age", age)
+            put("height", height)
+        }
+        db.insert("info", null, values)
+    }
+
+    fun updatePersonById(id: Int, name: String?, age: Int?, height: Float?): Boolean {
+        val values = ContentValues().apply {
+            if (!name.isNullOrBlank()) put("name", name)
+            if (age != null) put("age", age)
+            if (height != null) put("height", height)
+        }
+        val rows = db.update("info", values, "id=?", arrayOf(id.toString()))
+        return rows > 0
     }
 
     // 关闭数据库

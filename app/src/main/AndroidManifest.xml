@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonInfoDemo">
+        <service android:name=".CheckHeightService" />
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="com.example.personinfodemo.provider"
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"

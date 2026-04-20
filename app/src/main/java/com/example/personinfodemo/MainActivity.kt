@@ -23,8 +23,11 @@ import com.example.personinfodemo.model.Person
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        setContent {
+        startService(Intent(this, CheckHeightService::class.java))
+
+                setContent {
             MaterialTheme {
                 PersonInfoScreen()
             }
